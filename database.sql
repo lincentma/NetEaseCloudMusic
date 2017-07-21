@@ -60,7 +60,7 @@ CREATE TABLE `comment` (
   `new_18` text,
   `new_19` text,
   `new_20` text
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,10 +81,10 @@ DROP TABLE IF EXISTS `song`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `song` (
   `id` int(20) NOT NULL,
-  `song_name` varchar(200) DEFAULT NULL,
-  `singer_name` varchar(200) DEFAULT NULL,
+  `song_name` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
+  `singer_name` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,4 +113,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-21 21:03:24
+-- Dump completed on 2017-07-22  0:58:43
