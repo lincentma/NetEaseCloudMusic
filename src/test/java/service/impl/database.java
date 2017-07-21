@@ -7,8 +7,7 @@ import service.impl.impl.DataBaseServiceImpl;
 import service.impl.impl.HtmlParserServiceImpl;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
-import java.util.Queue;
+import java.util.List;
 
 /**
  * Created by ml on 2017/7/21.
@@ -18,13 +17,12 @@ public class database {
     public void insert1() {
         HtmlParserServiceImpl parse = new HtmlParserServiceImpl();
         String search = "真的假的";
-        Queue<SongSearchResult> result = parse.parseSearchInfo(search);
+        List<SongSearchResult> result = parse.parseSearchInfo(search);
 
         DataBaseServiceImpl dataBaseServiceImpl = new DataBaseServiceImpl();
 
-        Iterator it = result.iterator();
-        while (it.hasNext()) {
-            System.out.println(dataBaseServiceImpl.saveSong(result.poll()));
+        for (SongSearchResult song : result) {
+            System.out.println(dataBaseServiceImpl.saveSong(song));
         }
 
 

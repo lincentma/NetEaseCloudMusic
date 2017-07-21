@@ -18,7 +18,7 @@ import java.util.*;
  */
 public class HtmlParserServiceImpl implements HtmlParserService {
 
-    public Queue<SongSearchResult> parseSearchInfo(String search) {
+    public List<SongSearchResult> parseSearchInfo(String search) {
 
         SongSearch songSearch = new SongSearch();
 
@@ -31,7 +31,7 @@ public class HtmlParserServiceImpl implements HtmlParserService {
         String postParam = "";
         boolean total = true;
 
-        Queue<SongSearchResult> result = new LinkedList<SongSearchResult>();
+        List<SongSearchResult> result = new LinkedList<SongSearchResult>();
         //Get
         url = url + "?" + "s=" + search + "&type=" + type + "&limit=" + limit + "&offset=" + offset;
         //Post
@@ -47,12 +47,11 @@ public class HtmlParserServiceImpl implements HtmlParserService {
 //        songSearch = gson.fromJson(responseFirst, SongSearch.class);
         songSearch = gson.fromJson(responsePostFirst, SongSearch.class);
         totalNum = songSearch.getResult().getSongCount();
-        System.out.println(totalNum);
 
+        System.out.println(totalNum);
         //计算totalCount需要请求次数
         int remainNum = totalNum % limit;
         int num = (remainNum == 0) ? (totalNum / limit) : totalNum / limit + 1;
-        System.out.println(num);
 
         //循环请求所有搜索的结果
         for (int i = 0; i < num; i++) {
@@ -62,7 +61,7 @@ public class HtmlParserServiceImpl implements HtmlParserService {
                 total = false;
             }
             offset = limit * i;
-            if (i == num - 1) {
+            if (i == num - 1 && remainNum != 0) {
                 limit = remainNum;
             }
             String nameOffset = "offset";
@@ -84,7 +83,6 @@ public class HtmlParserServiceImpl implements HtmlParserService {
                 //替换flag
                 postParam = postParam.replaceAll("(" + nameTotal + "=[^&]*)", nameTotal + "=" + total);
             }
-            System.out.println(postParam);
             String responseOther = HttpUtil.doPost(urlPost, postParam);
 
             //Json结果处理
@@ -92,6 +90,7 @@ public class HtmlParserServiceImpl implements HtmlParserService {
             songSearch = gson.fromJson(responseOther, SongSearch.class);
             //歌曲id，歌曲名称，歌手姓名
             List<SongSearch.ResultBean.SongsBean> songs = songSearch.getResult().getSongs();
+            System.out.println(songs.size());
             Iterator<SongSearch.ResultBean.SongsBean> iter = songs.iterator();
             while (iter.hasNext()) {
                 SongSearch.ResultBean.SongsBean song = iter.next();
@@ -106,8 +105,8 @@ public class HtmlParserServiceImpl implements HtmlParserService {
                 resultbean.setId(song.getId());
                 resultbean.setSong_name(song.getName());
                 resultbean.setArtist_name(StringUtils.join(artistName, Constants.SEPARATOR));
-                //添加到队列
-                result.offer(resultbean);
+                //添加到列表
+                result.add(resultbean);
             }
         }
         //最后

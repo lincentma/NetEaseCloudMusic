@@ -5,7 +5,7 @@ import model.json.song.search.SongSearchResult;
 import org.junit.Test;
 import service.impl.impl.HtmlParserServiceImpl;
 
-import java.util.Queue;
+import java.util.List;
 
 /**
  * Created by ml on 2017/7/21.
@@ -14,13 +14,11 @@ public class json {
     @Test
     public void parseJosn() {
         HtmlParserServiceImpl parse = new HtmlParserServiceImpl();
-        String search = "真的假的";
-        Queue<SongSearchResult> result = parse.parseSearchInfo(search);
+        String search = "阿里的看法";
+        List<SongSearchResult> result = parse.parseSearchInfo(search);
 
         System.out.println(result.size());
-        System.out.println(result.peek().getArtist_name());
-        System.out.println(result.peek().getId());
-        System.out.println(result.peek().getSong_name());
+
 
     }
 

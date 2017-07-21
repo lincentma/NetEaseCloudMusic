@@ -25,8 +25,8 @@ public class MusicQueueServiceImpl implements MusicQueueService {
         return null;
     }
 
-    public static void addCrawledMusic(String e) {
-        crawledMusics.offer(e);
+    public static void addCrawledMusic(SongSearchResult e) {
+        crawledMusics.offer(String.valueOf(e.getId()));
     }
 
     public static boolean isMusicCrawled(String id) {
@@ -40,10 +40,6 @@ public class MusicQueueServiceImpl implements MusicQueueService {
     public static int getCrawledMusicSize() {
         return crawledMusics.size();
     }
-
-    //队列中处理
-
-    //保存到数据库
 
 
 }
