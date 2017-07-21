@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.lincentma</groupId>
+    <artifactId>cloudmusic_spider</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- mysql驱动版本号 -->
+        <mysql-driver.version>5.1.29</mysql-driver.version>
+
+        <!-- log4j日志包版本号 -->
+        <slf4j.version>1.7.18</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+
+        <!-- c3p0日志包版本号 -->
+        <c3p0.version>0.9.5.2</c3p0.version>
+        <!-- dbutil包版本号 -->
+        <commons-dbutils.version>1.6</commons-dbutils.version>
+        <!-- junit包版本号 -->
+        <junit.version>4.12</junit.version>
+        <!-- commons-io包版本号 -->
+        <commons-io.version>2.4</commons-io.version>
+        <!-- javax.servlet-api包版本号 -->
+        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+        <!-- commons-lang3包版本号 -->
+        <commons-lang3.version>3.4</commons-lang3.version>
+        <!-- httpclient包版本号 -->
+        <httpclient.version>4.5.1</httpclient.version>
+        <!-- json-lib包版本号 -->
+        <json-lib.version>2.4</json-lib.version>
+        <!-- fastgson包版本号 -->
+        <fastjson.version>1.2.31</fastjson.version>
+        <!-- gson包版本号 -->
+        <gson.version>2.8.0</gson.version>
+
+    </properties>
+
+    <dependencies>
+        <!-- 添加mysql驱动依赖 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-driver.version}</version>
+        </dependency>
+
+        <!-- 添加日志相关jar包 -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${c3p0.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-dbutils</groupId>
+            <artifactId>commons-dbutils</artifactId>
+            <version>${commons-dbutils.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>${json-lib.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+
+
+    </dependencies>
+
+
+</project>
