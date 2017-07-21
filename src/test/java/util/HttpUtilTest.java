@@ -45,7 +45,7 @@ public class HttpUtilTest {
     public void postsearch() {
 
         String url = "http://music.163.com/api/search/get/web?csrf_token=";
-        String parm = "hlpretag=&hlposttag=&s=啊哈哈&type=1&offset=37&total=false&limit=5";
+        String parm = "hlpretag=&hlposttag=&s=真的假的&type=1&offset=37&total=false&limit=5";
         String httpOrgCreateTestRtn = HttpUtil.doPost(url, parm);
         System.out.println(httpOrgCreateTestRtn);
         Gson gson = new Gson();

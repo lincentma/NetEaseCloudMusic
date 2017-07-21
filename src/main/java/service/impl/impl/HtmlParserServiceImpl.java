@@ -28,35 +28,68 @@ public class HtmlParserServiceImpl implements HtmlParserService {
         String url = Constants.SEARCHAPI;
         String urlPost = Constants.SEARCHPOSTAPI;
         int totalNum = 0;
-        String post_param = "";
-        boolean flag = true;
+        String postParam = "";
+        boolean total = true;
 
         Queue<SongSearchResult> result = new LinkedList<SongSearchResult>();
-
+        //Get
         url = url + "?" + "s=" + search + "&type=" + type + "&limit=" + limit + "&offset=" + offset;
-
-        post_param = "hlpretag=&hlposttag=&s=" + search + "&type=" + type + "&offset=" + offset + "&total=" + flag + "&limit=" + limit;
+        //Post
+        postParam = "hlpretag=&hlposttag=&s=" + search + "&type=" + type + "&offset=" + offset + "&total=" + total + "&limit=" + limit;
 
         //第一次请求获取totalCount
+        //Get
         String responseFirst = HttpUtil.doGet(url);
+        //Post
+        String responsePostFirst = HttpUtil.doPost(urlPost, postParam);
 
         Gson gson = new Gson();
-        songSearch = gson.fromJson(responseFirst, SongSearch.class);
+//        songSearch = gson.fromJson(responseFirst, SongSearch.class);
+        songSearch = gson.fromJson(responsePostFirst, SongSearch.class);
         totalNum = songSearch.getResult().getSongCount();
+        System.out.println(totalNum);
 
         //计算totalCount需要请求次数
-        int num = (totalNum % limit == 0) ? (totalNum / limit) : totalNum / limit + 1;
+        int remainNum = totalNum % limit;
+        int num = (remainNum == 0) ? (totalNum / limit) : totalNum / limit + 1;
+        System.out.println(num);
+
+        //循环请求所有搜索的结果
         for (int i = 0; i < num; i++) {
-            offset += limit * i;
-            String name = "offset";
-            //正则替换请求参数
-            if (StringUtils.isNotBlank(url)) {
-                url = url.replaceAll("(" + name + "=[^&]*)", name + "=" + offset);
+            if (i == 0) {
+                total = true;
+            } else {
+                total = false;
             }
-            String responseOther = HttpUtil.doGet(url);
+            offset = limit * i;
+            if (i == num - 1) {
+                limit = remainNum;
+            }
+            String nameOffset = "offset";
+            String nameLimit = "limit";
+            String nameTotal = "total";
+            //正则替换请求参数
+            //Get
+//            if (StringUtils.isNotBlank(url)) {
+//                url = url.replaceAll("(" + name + "=[^&]*)", name + "=" + offset);
+//                System.out.println(url);
+//            }
+//            String responseOther = HttpUtil.doGet(url);
+            //Post
+            if (StringUtils.isNotBlank(url)) {
+                //替换offset
+                postParam = postParam.replaceAll("(" + nameOffset + "=[^&]*)", nameOffset + "=" + offset);
+                //替换limit
+                postParam = postParam.replaceAll("(" + nameLimit + "=[^&]*)", nameLimit + "=" + limit);
+                //替换flag
+                postParam = postParam.replaceAll("(" + nameTotal + "=[^&]*)", nameTotal + "=" + total);
+            }
+            System.out.println(postParam);
+            String responseOther = HttpUtil.doPost(urlPost, postParam);
+
             //Json结果处理
             gson = new Gson();
-            songSearch = gson.fromJson(responseFirst, SongSearch.class);
+            songSearch = gson.fromJson(responseOther, SongSearch.class);
             //歌曲id，歌曲名称，歌手姓名
             List<SongSearch.ResultBean.SongsBean> songs = songSearch.getResult().getSongs();
             Iterator<SongSearch.ResultBean.SongsBean> iter = songs.iterator();
