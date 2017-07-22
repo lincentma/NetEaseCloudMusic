@@ -36,10 +36,16 @@ public class Run {
         ExecutorService musicService = Executors.newFixedThreadPool(5);
 
 
-        ProducerThread producer = new ProducerThread(song);
-        ConsumerThread consumer = new ConsumerThread();
+        Thread producer = new Thread(new ProducerThread(song));
+        Thread consumer = new Thread(new ConsumerThread());
+
+        //设置优先级，生产者先产出
+        //Setting priorities on the Thread objects
+        producer.setPriority(Thread.MAX_PRIORITY);
+        consumer.setPriority(Thread.MIN_PRIORITY);
 
         musicService.submit(producer);
+        musicService.submit(consumer);
         musicService.submit(consumer);
         musicService.submit(consumer);
         musicService.submit(consumer);
@@ -58,17 +64,18 @@ public class Run {
             //1、结果插入队列
             //2、结果插入数据库
             DataBaseServiceImpl dataBaseService = new DataBaseServiceImpl();
-            for (int i = 0; i < song.size(); i++) {
-                try {
+            try {
+                for (int i = 0; i < song.size(); i++) {
                     musicQueue.addUncrawledMusic(song.get(i));
                     dataBaseService.saveSong(song.get(i));
-                    Thread.sleep(200); //模拟慢速的生产，产生阻塞的效果
-                } catch (InterruptedException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                    // 休眠300ms
+                    Thread.sleep(300);
+                    System.out.println("OK");
                 }
-                System.out.println("OK");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+
 
         }
     }
@@ -80,10 +87,9 @@ public class Run {
         public void run() {
             //1、取队列结果
             //2、插入数据库
-
-
-            while (!musicQueue.isUncrawledMusicQueueEmpty()) {
-                try {
+            try {
+                System.out.println(musicQueue.isUncrawledMusicQueueEmpty());
+                while (!musicQueue.isUncrawledMusicQueueEmpty()) {
                     SongSearchResult song = musicQueue.getMusic();
                     //判读是否处理过
                     if (!musicQueue.isMusicCrawled(String.valueOf(song.getId()))) {
@@ -91,18 +97,17 @@ public class Run {
                         dataBaseService.saveComment(comment);
                         musicQueue.addCrawledMusic(song);
                     }
-                    Thread.sleep(100);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.sleep(500);
                 }
                 System.out.println("Done");
-
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
             }
 
         }

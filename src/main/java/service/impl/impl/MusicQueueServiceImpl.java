@@ -34,7 +34,7 @@ public class MusicQueueServiceImpl implements MusicQueueService {
     }
 
     public static boolean isUncrawledMusicQueueEmpty() {
-        return uncrawledMusics.isEmpty();
+        return uncrawledMusics.size() == 0;
     }
 
     public static int getCrawledMusicSize() {
